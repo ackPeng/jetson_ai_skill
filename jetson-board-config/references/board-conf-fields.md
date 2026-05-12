@@ -15,7 +15,7 @@ The build or flash environment normally supplies:
 
 Use these values whenever generating a no-device firmware package. If a target is connected in recovery mode for online flashing, NVIDIA's scripts can read the board and chip information from the device, so vendor flash wrappers may not pass the tuple explicitly.
 
-Thor note: NVIDIA and vendor board spec files may intentionally leave `BOARDREV` empty for `jetson-agx-thor-devkit`. In that case, pass `BOARDREV=` to flash tools and use `check-board-conf.py --allow-empty-boardrev`.
+Thor note: NVIDIA and vendor board spec files may intentionally leave `BOARDREV` empty for `jetson-agx-thor-devkit`. In that case, pass `BOARDREV=` to flash tools and use `check-board-conf.py --allow-empty-boardrev`. For this repository's current Thor reference tuple, use `BOARDID=3834 BOARDSKU=0008 FAB=400 BOARDREV=G.5 CHIP_SKU=00:00:00:A0` unless the connected board or supplier SDK says otherwise.
 
 ## DTB fields
 

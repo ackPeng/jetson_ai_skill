@@ -12,6 +12,7 @@ Use this skill to create or validate a Jetson board `.conf` file that the SDK ca
 ## Workflow
 
 1. Start with `jetson-bsp-context` if the SDK root, SoC, or board identity tuple is unknown.
+   - For CI-derived Seeed boards or the project Thor reference, use `../jetson-bsp-context/references/board-identity-tuples.md` as a tuple reference.
 2. Choose the nearest devkit board config:
    - For Orin t234, start from `p3768-0000-p3767-0000-a0-nvme.conf`, `p3737-0000-p3701-0000.conf`, or another matching module and carrier reference.
    - For Thor t264, start from `p3834-0008-p4071-0000-nvme.conf` or the matching P-number reference.
@@ -54,8 +55,7 @@ Validate a Jetson Thor devkit config with an empty board revision:
 python3 jetson-board-config/scripts/check-board-conf.py \
   --sdk /home/galbot/jetson_firmware/Linux_for_Tegra \
   --config jetson-agx-thor-devkit \
-  --boardid 3834 --boardsku 0008 --fab 401 --boardrev "" --chip-sku 00:00:00:A0 \
-  --allow-empty-boardrev
+  --boardid 3834 --boardsku 0008 --fab 400 --boardrev G.5 --chip-sku 00:00:00:A0
 ```
 
 Render a draft custom config from a devkit base:
@@ -86,3 +86,4 @@ python3 jetson-board-config/scripts/render-board-conf.py \
 
 - Read `references/board-conf-fields.md` for field meanings and expected locations.
 - Read `references/prebuilt-artifacts-board-config.md` for the first validation plan using supplied DTB and BCT artifacts.
+- Read `../jetson-bsp-context/references/board-identity-tuples.md` for CI-derived board identity examples.

@@ -20,7 +20,7 @@ sudo ./tools/kernel_flash/l4t_initrd_flash.sh [options] <board> <rootdev>
 
 For most Jetson Thor local NVMe/UFS root filesystem flows, use `internal` as `<rootdev>`.
 
-Offline massflash package generation must pass the board identity tuple explicitly because no Jetson in recovery mode is available for EEPROM/chip probing. Online flashing commands may omit the tuple when the connected recovery-mode device can be probed by NVIDIA's scripts.
+Offline massflash package generation must pass the board identity tuple explicitly because no Jetson in recovery mode is available for EEPROM/chip probing. Online flashing commands may omit the tuple when the connected recovery-mode device can be probed by NVIDIA's scripts. For this repository's CI-derived board tuples, read `../../jetson-bsp-context/references/board-identity-tuples.md`.
 
 ## Jetson Thor online flash
 
@@ -92,7 +92,7 @@ sudo ./tools/kernel_flash/l4t_initrd_flash.sh \
 Generate a Thor massflash package from a populated SDK when no target is connected:
 
 ```bash
-sudo env BOARDID=3834 BOARDSKU=0008 FAB=401 BOARDREV= CHIP_SKU=00:00:00:A0 \
+sudo env BOARDID=3834 BOARDSKU=0008 FAB=400 BOARDREV=G.5 CHIP_SKU=00:00:00:A0 \
   ./tools/kernel_flash/l4t_initrd_flash.sh \
   --no-flash --massflash 5 --network usb0 \
   jetson-agx-thor-devkit internal
@@ -101,7 +101,7 @@ sudo env BOARDID=3834 BOARDSKU=0008 FAB=401 BOARDREV= CHIP_SKU=00:00:00:A0 \
 If the board package or official example explicitly requires an external-device workflow, use:
 
 ```bash
-sudo env BOARDID=3834 BOARDSKU=0008 FAB=401 BOARDREV= CHIP_SKU=00:00:00:A0 \
+sudo env BOARDID=3834 BOARDSKU=0008 FAB=400 BOARDREV=G.5 CHIP_SKU=00:00:00:A0 \
   ./tools/kernel_flash/l4t_initrd_flash.sh \
   --external-device nvme0n1p1 \
   -c tools/kernel_flash/flash_l4t_t264_nvme.xml \

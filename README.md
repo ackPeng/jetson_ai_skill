@@ -34,14 +34,13 @@ python3 jetson-bsp-context/scripts/probe-l4t.py \
   --json
 ```
 
-Validate a Thor board config whose `BOARDREV` is intentionally empty:
+Validate a Thor board config with the project reference tuple:
 
 ```bash
 python3 jetson-board-config/scripts/check-board-conf.py \
   --sdk /home/galbot/jetson_firmware/Linux_for_Tegra \
   --config jetson-agx-thor-devkit \
-  --boardid 3834 --boardsku 0008 --fab 401 --boardrev "" --chip-sku 00:00:00:A0 \
-  --allow-empty-boardrev
+  --boardid 3834 --boardsku 0008 --fab 400 --boardrev G.5 --chip-sku 00:00:00:A0
 ```
 
 Prepare rootfs:
@@ -59,7 +58,7 @@ Print a Thor massflash package command without executing it:
 jetson-flash-package/scripts/make-massflash.sh \
   --sdk /home/galbot/jetson_firmware/Linux_for_Tegra \
   --config jetson-agx-thor-devkit \
-  --boardid 3834 --boardsku 0008 --fab 401 --boardrev "" --chip-sku 00:00:00:A0 \
+  --boardid 3834 --boardsku 0008 --fab 400 --boardrev G.5 --chip-sku 00:00:00:A0 \
   --mode internal --rootdev internal --massflash 1
 ```
 
@@ -68,6 +67,7 @@ Add `--execute` only after reviewing the printed command.
 ## Important Notes
 
 - Offline package generation must pass `BOARDID`, `BOARDSKU`, `FAB`, `BOARDREV`, and `CHIP_SKU` because no recovery-mode Jetson is available for EEPROM/chip probing.
+- CI-derived Seeed/Orin tuples and the project Thor reference tuple live in `jetson-bsp-context/references/board-identity-tuples.md`.
 - Online flashing commands may omit the board tuple when NVIDIA tools can read a connected recovery-mode target.
 - For Thor/t264 R38 flows, local NVMe/UFS rootfs commonly uses `rootdev=internal`.
 - `--massflash 5` can create very large `mfi_<board>/` directories because it stores multiple flashing workspaces. Use `--massflash 1` for smoke tests.

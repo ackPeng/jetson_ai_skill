@@ -17,6 +17,7 @@ Use this skill first when the request does not already pin down the SDK root, So
    - `t264` means Thor-class BSP flow, typically JP7 or L4T r38.
    - Some SDKs contain both; choose from the board config or SoC-specific DTB names.
 3. Collect the board identity tuple: `CONFIG`, `BOARDID`, `BOARDSKU`, `FAB`, `BOARDREV`, and `CHIP_SKU`.
+   - When the user is working from this repository's CI-supported boards, consult `references/board-identity-tuples.md` before guessing tuple values.
 4. Check whether the task is source-DTS mode or prebuilt-artifacts mode. If the user has only DTB and BCT binaries or exported files, route to prebuilt-artifacts mode.
 5. Route the next step:
    - Board config creation or validation: use `jetson-board-config`.
@@ -51,3 +52,4 @@ python3 jetson-bsp-context/scripts/probe-l4t.py \
 
 - Read `references/sdk-layout.md` for the local SDK roots and important directories.
 - Read `references/version-profiles.md` when the task involves JP6, JP7, r36, r38, Orin, or Thor version boundaries.
+- Read `references/board-identity-tuples.md` for CI-derived Seeed board tuples and the project Thor reference tuple.
