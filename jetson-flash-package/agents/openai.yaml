@@ -1,0 +1,4 @@
+interface:
+  display_name: "Jetson Flash Package"
+  short_description: "Create and flash Jetson no-flash and massflash packages"
+  default_prompt: "Use $jetson-flash-package to create a Jetson no-flash or massflash package, inspect flash artifacts, or flash a recovery-mode Jetson target."

@@ -1,0 +1,4 @@
+interface:
+  display_name: "Jetson Firmware Build"
+  short_description: "Build Jetson rootfs, kernel, DTB, and modules"
+  default_prompt: "Use $jetson-firmware-build to prepare rootfs, install kernel artifacts, install prebuilt DTB/BCT files, and run depmod before flashing."

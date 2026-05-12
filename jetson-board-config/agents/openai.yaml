@@ -1,0 +1,4 @@
+interface:
+  display_name: "Jetson Board Config"
+  short_description: "Create and validate Jetson board configs"
+  default_prompt: "Use $jetson-board-config to create or validate a Jetson board configuration for flashing."

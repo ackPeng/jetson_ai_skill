@@ -1,0 +1,4 @@
+interface:
+  display_name: "Jetson DTS Port"
+  short_description: "Port Jetson carrier-board device trees"
+  default_prompt: "Use $jetson-dts-port to modify Jetson device tree sources for a custom carrier board."

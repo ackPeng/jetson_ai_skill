@@ -1,0 +1,4 @@
+interface:
+  display_name: "Jetson BSP Context"
+  short_description: "Detect Jetson BSP SDK and board context"
+  default_prompt: "Use $jetson-bsp-context to identify the Jetson BSP SDK, SoC profile, board variables, and next workflow."
