@@ -36,7 +36,7 @@ Find likely reference files:
 
 ```bash
 python3 jetson-dts-port/scripts/find-dts-references.py \
-  --sdk /home/galbot/jetson/JP7.1/Linux_for_Tegra \
+  --sdk "$L4T_DIR" \
   --soc t264 \
   --terms p4071 p3834 camera
 ```

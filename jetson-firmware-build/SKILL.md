@@ -31,7 +31,7 @@ Preflight:
 
 ```bash
 jetson-firmware-build/scripts/preflight-l4t.sh \
-  --sdk /home/galbot/jetson/JP7.1/Linux_for_Tegra \
+  --sdk "$L4T_DIR" \
   --config my-custom-board \
   --rootfs-tar /path/to/Tegra_Linux_Sample-Root-Filesystem.tbz2 \
   --require-board-vars
@@ -43,7 +43,7 @@ Prepare rootfs:
 
 ```bash
 jetson-firmware-build/scripts/prepare-rootfs.sh \
-  --sdk /home/galbot/jetson/JP7.1/Linux_for_Tegra \
+  --sdk "$L4T_DIR" \
   --rootfs-tar /path/to/Tegra_Linux_Sample-Root-Filesystem.tbz2 \
   --yes
 ```
@@ -52,7 +52,7 @@ Install supplied DTB and BCT files:
 
 ```bash
 jetson-firmware-build/scripts/install-prebuilt-artifacts.sh \
-  --sdk /home/galbot/jetson/JP7.1/Linux_for_Tegra \
+  --sdk "$L4T_DIR" \
   --dtb-dir /path/to/prebuilt-dtb \
   --bct-dir /path/to/exported-bct \
   --copy-to-rootfs-boot

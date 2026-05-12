@@ -20,7 +20,7 @@ sudo ./tools/kernel_flash/l4t_initrd_flash.sh [options] <board> <rootdev>
 
 For most Jetson Thor local NVMe/UFS root filesystem flows, use `internal` as `<rootdev>`.
 
-Offline massflash package generation must pass the board identity tuple explicitly because no Jetson in recovery mode is available for EEPROM/chip probing. Online flashing commands may omit the tuple when the connected recovery-mode device can be probed by NVIDIA's scripts. For this repository's CI-derived board tuples, read `../../jetson-bsp-context/references/board-identity-tuples.md`.
+Offline massflash package generation must pass the board identity tuple explicitly because no Jetson in recovery mode is available for EEPROM/chip probing. Online flashing commands may omit the tuple when the connected recovery-mode device can be probed by NVIDIA's scripts. For this repository's module-level board tuples, read `../../jetson-bsp-context/references/board-identity-tuples.md`.
 
 ## Jetson Thor online flash
 
@@ -75,7 +75,7 @@ sudo env BOARDID=3767 BOARDSKU=0003 FAB=300 BOARDREV=N.2 CHIP_SKU=00:00:00:D6 \
   my-config external
 ```
 
-For the local JP7.1 t264 SDK, replace the external layout with `tools/kernel_flash/flash_l4t_t264_nvme.xml` and use `bootloader/flash_l4t_t264_qspi.xml` as the QSPI layout only when you are intentionally using an Orin-like split internal/external command.
+For t264 SDKs, replace the external layout with `tools/kernel_flash/flash_l4t_t264_nvme.xml` and use `bootloader/flash_l4t_t264_qspi.xml` as the QSPI layout only when you are intentionally using an Orin-like split internal/external command.
 
 ## Jetson Thor local NVMe/UFS
 

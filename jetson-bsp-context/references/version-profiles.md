@@ -20,7 +20,7 @@ Common board IDs in the CI:
 
 ## t264 Thor profile
 
-Typical for JetPack 7.x and L4T r38.x. The local JP7.1 SDK contains:
+Typical for JetPack 7.x and L4T r38.x. Thor-capable SDKs usually contain:
 
 - `t264.conf.common`
 - `tegra264` DTB and BCT filenames
@@ -32,4 +32,4 @@ Typical for JetPack 7.x and L4T r38.x. The local JP7.1 SDK contains:
 
 ## Mixed SDK caution
 
-The local JP7.1 SDK contains both t23x and t264 files. Select the active profile from the board config and DTB names, not from the SDK folder name alone.
+Some SDKs contain both t23x and t264 files. Select the active profile from the board config and DTB names, not from the SDK folder name alone.

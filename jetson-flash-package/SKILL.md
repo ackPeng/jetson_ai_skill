@@ -18,7 +18,7 @@ This skill owns the flashing boundary: no-flash image generation, massflash pack
 3. Decide whether the task is offline package generation or online flashing:
    - Offline package/no-device CI: pass `BOARDID`, `BOARDSKU`, `FAB`, `BOARDREV`, and `CHIP_SKU` explicitly.
    - Online flashing with a board in recovery mode: NVIDIA scripts may read board and chip information directly.
-   - For CI-derived Seeed boards or the project Thor reference, consult `../jetson-bsp-context/references/board-identity-tuples.md`.
+   - For common module tuples or the project Thor reference, consult `../jetson-bsp-context/references/board-identity-tuples.md`.
 4. For Thor t264, prefer `rootdev=internal` for local NVMe/UFS flows unless the board package says otherwise.
 5. Print the exact command before execution. Treat sudo, `--flash-only`, `--erase-all`, and partition-specific flashing as high-impact operations.
 6. When generating a package, inspect `mfi_<board>/` and only wait for `mfi_<board>.tar.gz` when the package must be copied or archived.
@@ -38,7 +38,7 @@ Use `scripts/make-massflash.sh` to print or execute a consistent no-flash massfl
 
 ```bash
 jetson-flash-package/scripts/make-massflash.sh \
-  --sdk /home/galbot/jetson_firmware/Linux_for_Tegra \
+  --sdk "$L4T_DIR" \
   --config jetson-agx-thor-devkit \
   --boardid 3834 --boardsku 0008 --fab 400 --boardrev G.5 --chip-sku 00:00:00:A0 \
   --mode internal --rootdev internal --massflash 1

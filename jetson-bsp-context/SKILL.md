@@ -31,14 +31,14 @@ Run the probe script when the SDK path or profile is not obvious:
 
 ```bash
 python3 jetson-bsp-context/scripts/probe-l4t.py \
-  --sdk /home/galbot/jetson/JP7.1/Linux_for_Tegra
+  --sdk "$L4T_DIR"
 ```
 
 For JSON output:
 
 ```bash
 python3 jetson-bsp-context/scripts/probe-l4t.py \
-  --sdk /home/galbot/jetson/JP7.1/Linux_for_Tegra \
+  --sdk "$L4T_DIR" \
   --json
 ```
 
@@ -52,4 +52,4 @@ python3 jetson-bsp-context/scripts/probe-l4t.py \
 
 - Read `references/sdk-layout.md` for the local SDK roots and important directories.
 - Read `references/version-profiles.md` when the task involves JP6, JP7, r36, r38, Orin, or Thor version boundaries.
-- Read `references/board-identity-tuples.md` for CI-derived Seeed board tuples and the project Thor reference tuple.
+- Read `references/board-identity-tuples.md` for module-level board tuples and the project Thor reference tuple.
