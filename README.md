@@ -4,6 +4,13 @@ This repository distills Jetson BSP bring-up workflows into Codex skills. It is 
 
 The skills are designed to be used as a sequence. Start with context detection, validate or create the board config, prepare BSP artifacts, then generate or use flash packages.
 
+Command examples use `$L4T_DIR` as the SDK root placeholder. Replace it with the
+target `Linux_for_Tegra` directory for the current project.
+
+```bash
+export L4T_DIR=/path/to/Linux_for_Tegra
+```
+
 ## Skill Map
 
 | Skill | Use For | Owns |
@@ -30,7 +37,7 @@ Probe an SDK:
 
 ```bash
 python3 jetson-bsp-context/scripts/probe-l4t.py \
-  --sdk /home/galbot/jetson/JP7.1/Linux_for_Tegra \
+  --sdk "$L4T_DIR" \
   --json
 ```
 
@@ -38,7 +45,7 @@ Validate a Thor board config with the project reference tuple:
 
 ```bash
 python3 jetson-board-config/scripts/check-board-conf.py \
-  --sdk /home/galbot/jetson_firmware/Linux_for_Tegra \
+  --sdk "$L4T_DIR" \
   --config jetson-agx-thor-devkit \
   --boardid 3834 --boardsku 0008 --fab 400 --boardrev G.5 --chip-sku 00:00:00:A0
 ```
@@ -47,7 +54,7 @@ Prepare rootfs:
 
 ```bash
 jetson-firmware-build/scripts/prepare-rootfs.sh \
-  --sdk /home/galbot/jetson/JP7.1/Linux_for_Tegra \
+  --sdk "$L4T_DIR" \
   --rootfs-tar /path/to/Tegra_Linux_Sample-Root-Filesystem.tbz2 \
   --yes
 ```
@@ -56,7 +63,7 @@ Print a Thor massflash package command without executing it:
 
 ```bash
 jetson-flash-package/scripts/make-massflash.sh \
-  --sdk /home/galbot/jetson_firmware/Linux_for_Tegra \
+  --sdk "$L4T_DIR" \
   --config jetson-agx-thor-devkit \
   --boardid 3834 --boardsku 0008 --fab 400 --boardrev G.5 --chip-sku 00:00:00:A0 \
   --mode internal --rootdev internal --massflash 1
@@ -67,7 +74,7 @@ Add `--execute` only after reviewing the printed command.
 ## Important Notes
 
 - Offline package generation must pass `BOARDID`, `BOARDSKU`, `FAB`, `BOARDREV`, and `CHIP_SKU` because no recovery-mode Jetson is available for EEPROM/chip probing.
-- CI-derived Seeed/Orin tuples and the project Thor reference tuple live in `jetson-bsp-context/references/board-identity-tuples.md`.
+- Module-level board tuples and the project Thor reference tuple live in `jetson-bsp-context/references/board-identity-tuples.md`.
 - Online flashing commands may omit the board tuple when NVIDIA tools can read a connected recovery-mode target.
 - For Thor/t264 R38 flows, local NVMe/UFS rootfs commonly uses `rootdev=internal`.
 - `--massflash 5` can create very large `mfi_<board>/` directories because it stores multiple flashing workspaces. Use `--massflash 1` for smoke tests.

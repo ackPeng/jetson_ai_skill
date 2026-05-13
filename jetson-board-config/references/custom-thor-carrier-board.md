@@ -46,11 +46,33 @@ $L4T_DIR/
 
 For pinmux and padvoltage, the `.dts` files under `bootloader/generic/BCT/` can be thin wrappers that include exported `.dtsi` payloads. In the observed SDK, the payload `.dtsi` files live under `bootloader/`, not under `bootloader/generic/BCT/`, so validate with the SDK's tools instead of assuming one fixed include directory.
 
+For a real custom carrier, the pinmux-derived files are the first files that should come from the carrier schematic and NVIDIA's pinmux spreadsheet export. In the observed J601 SDK, that board-specific set is:
+
+```text
+bootloader/generic/BCT/<board>-pinmux.dts
+bootloader/generic/BCT/<board>-padvoltage-default.dts
+bootloader/<board>-pinmux.dtsi
+bootloader/<board>-padvoltage-default.dtsi
+bootloader/<board>-gpio-default.dtsi
+```
+
+The pinmux wrapper includes `<board>-pinmux.dtsi`, and that payload includes `<board>-gpio-default.dtsi`. The board config references only `PINMUX_CONFIG` and `PMC_CONFIG`; the GPIO payload is pulled in through the include chain.
+
 ## Board config recipe
 
 Start from the nearest Thor devkit config, usually `p3834-0008-p4071-0000-nvme.conf` for the T5000 module on the P4071 carrier family. Keep common firmware, memory, storage, and fuse settings inherited unless the vendor BSP replaces them.
 
-The J601-style custom board only needs these carrier-specific overrides:
+Use a minimal override policy. The J601 config differs from the Thor devkit baseline only in:
+
+```text
+DTB_FILE
+PINMUX_CONFIG
+PMC_CONFIG
+```
+
+It keeps `TBCDTB_FILE="${DTB_FILE}"` and leaves these inherited devkit/module artifacts unchanged: `BPFDTB_FILE`, `BPFFILE`, `EMC_BCT`, `WB0SDRAM_BCT`, `BPMP_MEM_CONFIG`, `MISC_CONFIG`, `SCR_CONFIG`, `PMIC_CONFIG`, `DEVICE_CONFIG`, `DEVICEPROD_CONFIG`, `PROD_CONFIG`, `MB2_BCT`, `MINRATCHET_CONFIG`, `GPIOINT_CONFIG`, and `UPHY_CONFIG`.
+
+The J601-style custom board uses these carrier-specific assignments:
 
 ```bash
 source "${LDK_DIR}/t264.conf.common";
@@ -64,7 +86,25 @@ EXTERNAL_PT_LAYOUT="tools/kernel_flash/flash_l4t_t264_nvme.xml";
 EXTERNAL_DEVICE="nvme0n1p1";
 ```
 
-The inspected config also inherits the normal Thor firmware fields such as `BPFDTB_FILE`, `BPFFILE`, `EMC_BCT`, `WB0SDRAM_BCT`, `BPMP_MEM_CONFIG`, `PMIC_CONFIG`, `DEVICE_CONFIG`, `PROD_CONFIG`, `MB2_BCT`, `MINRATCHET_CONFIG`, `GPIOINT_CONFIG`, and `UPHY_CONFIG`.
+For a pure naming-flow test that reuses devkit electrical content, either keep the devkit artifact filenames or make board-name copies only for the small set under test, such as `DTB_FILE`, `PINMUX_CONFIG`, and `PMC_CONFIG`. Do not create renamed copies of BPMP, PMIC, UPHY, memory, firewall, ratchet, GPIO interrupt, or device/product BCT files unless those files were actually regenerated or supplied by the board vendor.
+
+Avoid this over-broad pattern:
+
+```bash
+BPFDTB_FILE="<board>-bpmp.dtb";
+PMIC_CONFIG="<board>-pmic.dts";
+UPHY_CONFIG="<board>-uphy-lanes.dts";
+GPIOINT_CONFIG="<board>-gpioint.dts";
+MISC_CONFIG="<board>-misc.dts";
+SCR_CONFIG="<board>-firewall.dts";
+DEVICE_CONFIG="<board>-device.dts";
+DEVICEPROD_CONFIG="<board>-deviceprod.dts";
+PROD_CONFIG="<board>-prod.dts";
+MB2_BCT="<board>-mb2-bct-misc.dts";
+MINRATCHET_CONFIG="<board>-ratchet.dts";
+```
+
+That pattern makes the config look custom but increases risk, because those artifacts are module/platform firmware inputs, not carrier pinmux exports.
 
 ## DTS build/install recipe
 

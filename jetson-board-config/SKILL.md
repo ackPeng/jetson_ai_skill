@@ -18,6 +18,7 @@ Use this skill to create or validate a Jetson board `.conf` file that the SDK ca
    - For Thor t264, start from `p3834-0008-p4071-0000-nvme.conf` or the matching P-number reference.
    - For a custom Thor carrier like `recomputer-thor-carrier-j601`, read `references/custom-thor-carrier-board.md` and keep the devkit firmware/memory settings unless the vendor BSP replaces them.
 3. Create a custom `.conf` at the SDK root. Keep the inherited common file and override only board-specific values.
+   - For Thor carrier ports, use a minimal override policy. Do not rename inherited BPMP, PMIC, UPHY, memory, firewall, ratchet, GPIO interrupt, or device/product BCT files just to match the board name.
 4. In prebuilt-artifacts mode, reference the supplied BCT and DTB filenames directly. Do not assume the DTB is rebuilt from source.
 5. Validate references with `scripts/check-board-conf.py`. For Thor configs whose board spec intentionally leaves `BOARDREV` blank, add `--allow-empty-boardrev`.
 6. Hand off to `jetson-firmware-build` after the config is valid.
@@ -81,6 +82,7 @@ python3 jetson-board-config/scripts/render-board-conf.py \
 - Do not edit DTS sources from this skill. Use `jetson-dts-port` for source changes.
 - Keep prebuilt DTB filenames stable through the build. Kernel build steps may overwrite `kernel/dtb`; reinstall prebuilt artifacts before massflash when needed.
 - If the config sources a devkit config, verify that custom overrides come after the `source` line.
+- If a field still uses the devkit artifact content, keep the devkit filename. A board-name copy is appropriate only for artifacts that are actually board-specific or intentionally copied for a naming test, such as DTB/pinmux/padvoltage.
 - For Thor, check both kernel DTB and UEFI DTB naming. `DTB_FILE=tegra264-...dtb` and `TBCDTB_FILE=uefi_tegra264-...dtb` are different files, unlike many Orin configs where they may match.
 - For Thor custom carriers, `TBCDTB_FILE="${DTB_FILE}"` is also valid when the vendor BSP intentionally uses the same DTB for UEFI and kernel. Validate the file path rather than forcing one naming convention.
 
