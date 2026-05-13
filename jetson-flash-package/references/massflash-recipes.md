@@ -133,6 +133,27 @@ sudo ./tools/kernel_flash/l4t_initrd_flash.sh \
   jetson-agx-thor-devkit internal
 ```
 
+## Custom Thor carrier example
+
+For a J601-style custom carrier config, use the custom board config name but keep the Thor T5000 module tuple explicit for no-device package generation:
+
+```bash
+sudo env BOARDID=3834 BOARDSKU=0008 FAB=400 BOARDREV=G.5 CHIP_SKU=00:00:00:A0 \
+  ./tools/kernel_flash/l4t_initrd_flash.sh \
+  --no-flash --massflash 1 --network usb0 \
+  recomputer-thor-carrier-j601 internal
+```
+
+For direct online flash with a recovery-mode target attached:
+
+```bash
+sudo env BOARDID=3834 BOARDSKU=0008 FAB=400 BOARDREV=G.5 CHIP_SKU=00:00:00:A0 \
+  ./tools/kernel_flash/l4t_initrd_flash.sh \
+  recomputer-thor-carrier-j601 internal
+```
+
+The direct online command can omit the tuple only when the connected board can be probed correctly and the vendor BSP does not need a forced identity.
+
 ## Size and validation notes
 
 For Thor, the observed no-flash flow creates the unpacked `mfi_<board>/` directory before gzip starts. That directory includes `unified_flash/out/bsp_images`, `bsp_images1`, ..., up to the selected massflash count. `--massflash 5` is appropriate for a production multi-device package, but it can require hundreds of GB temporarily and a long single-threaded gzip step.

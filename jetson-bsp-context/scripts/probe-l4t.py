@@ -1,17 +1,43 @@
 #!/usr/bin/env python3
 import argparse
 import json
+import os
 from pathlib import Path
-
-
-DEFAULT_SDKS = [
-    Path("/home/galbot/jetson/JP7.1/Linux_for_Tegra"),
-    Path("/home/galbot/jetson_firmware/Linux_for_Tegra"),
-]
 
 
 def exists(path):
     return path.exists()
+
+
+def default_sdks():
+    candidates = []
+    env_path = os.environ.get("L4T_DIR")
+    if env_path:
+        candidates.append(Path(env_path))
+
+    cwd = Path.cwd()
+    candidates.append(cwd)
+    for base in [cwd, *list(cwd.parents)[:3]]:
+        candidates.append(base / "Linux_for_Tegra")
+        candidates.append(base / "linux_for_tegra")
+    for child in cwd.iterdir() if cwd.is_dir() else []:
+        if child.is_dir():
+            candidates.append(child / "Linux_for_Tegra")
+            candidates.append(child / "linux_for_tegra")
+
+    roots = []
+    seen = set()
+    for path in candidates:
+        try:
+            root = path.resolve()
+        except OSError:
+            continue
+        if root in seen:
+            continue
+        seen.add(root)
+        if (root / "tools" / "kernel_flash" / "l4t_initrd_flash.sh").is_file():
+            roots.append(root)
+    return roots
 
 
 def list_names(path, pattern):
@@ -107,7 +133,10 @@ def main():
     parser.add_argument("--json", action="store_true", help="Print JSON instead of text.")
     args = parser.parse_args()
 
-    paths = args.sdk or DEFAULT_SDKS
+    paths = args.sdk or default_sdks()
+    if not paths:
+        parser.error("pass --sdk or set L4T_DIR to a Linux_for_Tegra SDK root")
+
     reports = [inspect_sdk(path) for path in paths]
     if args.json:
         print(json.dumps(reports, indent=2, sort_keys=True))

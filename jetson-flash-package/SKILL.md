@@ -19,6 +19,7 @@ This skill owns the flashing boundary: no-flash image generation, massflash pack
    - Offline package/no-device CI: pass `BOARDID`, `BOARDSKU`, `FAB`, `BOARDREV`, and `CHIP_SKU` explicitly.
    - Online flashing with a board in recovery mode: NVIDIA scripts may read board and chip information directly.
    - For common module tuples or the project Thor reference, consult `../jetson-bsp-context/references/board-identity-tuples.md`.
+   - For a Thor custom carrier like `recomputer-thor-carrier-j601`, consult `../jetson-board-config/references/custom-thor-carrier-board.md`.
 4. For Thor t264, prefer `rootdev=internal` for local NVMe/UFS flows unless the board package says otherwise.
 5. Print the exact command before execution. Treat sudo, `--flash-only`, `--erase-all`, and partition-specific flashing as high-impact operations.
 6. When generating a package, inspect `mfi_<board>/` and only wait for `mfi_<board>.tar.gz` when the package must be copied or archived.
@@ -61,3 +62,5 @@ For additional parameters and current Thor-specific options, consult NVIDIA's Je
 https://docs.nvidia.com/jetson/archives/r38.4/DeveloperGuide/SD/FlashingSupportJetsonThor.html#before-you-begin
 
 For project board identity examples, read `../jetson-bsp-context/references/board-identity-tuples.md`.
+
+For custom Thor carrier board packaging, read `../jetson-board-config/references/custom-thor-carrier-board.md`.

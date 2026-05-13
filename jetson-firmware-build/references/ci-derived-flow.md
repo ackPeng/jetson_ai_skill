@@ -5,15 +5,15 @@ The provided GitLab CI performs this sequence:
 1. Validate `CONFIG`, `BOARDID`, `BOARDSKU`, `FAB`, `BOARDREV`, and `CHIP_SKU`.
 2. Sync submodules.
 3. Clean `rootfs/`.
-4. Download and extract `ROOTFS_NAME`.
+4. Download and extract the version-matched rootfs package. For JP7.1/Thor, see `rootfs-toolchain-sources.md`.
 5. Apply special board workarounds, such as Orin Nano 4GB `chip_info.bin_bak`.
 6. Run `apply_binaries.sh`.
 7. Append image and commit metadata to `rootfs/etc/nv_tegra_release`.
 8. Adjust kernel printk level in `rootfs/etc/sysctl.conf`.
-9. Install or unpack cross toolchain.
+9. Install or unpack the version-matched cross toolchain. For JP7.1/Thor, see `rootfs-toolchain-sources.md`.
 10. Export `ARCH=arm64` and `CROSS_COMPILE`.
 11. Run `source/nvbuild.sh`.
-12. Run `source/do_copy.sh` when present.
+12. Run `source/do_copy.sh` only when the project/vendor SDK provides it. Treat it as an artifact-copy helper from `source/kernel_out/` to the BSP staging area, not as a standard NVIDIA build command. If it is absent, copy required `Image`, `.dtb`, and `.dtbo` artifacts explicitly.
 13. Set `INSTALL_MOD_PATH` to `rootfs` and run `source/nvbuild.sh -i`.
 14. Copy overlays to `rootfs/boot/`.
 15. Optionally generate QSPI-only massflash with `jetson-flash-package`.
